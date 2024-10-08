@@ -18,7 +18,7 @@ const defaultValues = {
   alzheimer: {
     image: null, // Changed to null for easier handling
   },
-  diabetes: {
+  ml: {
     gender: "Female",
     age: 80,
     hypertension: 0,
@@ -27,25 +27,6 @@ const defaultValues = {
     bmi: 25.19,
     HbA1c_level: 6.6,
     blood_glucose_level: 140,
-  },
-  heart: {
-    age: 63,
-    sex: 1,
-    cp: 3,
-    trtbps: 145,
-    chol: 233,
-    fbs: 1,
-    restecg: 0,
-    thalachh: 150,
-    exng: 0,
-    oldpeak: 2.3,
-    slp: 0,
-    caa: 0,
-    thall: 1,
-  },
-  cholesterol: {
-    age: 63,
-    sex: 1,
     cp: 3,
     trtbps: 145,
     fbs: 1,
@@ -56,21 +37,34 @@ const defaultValues = {
     slp: 0,
     caa: 0,
     thall: 1,
-  },
-  weather: {
-    Temperature: 38,
-    Humidity: 83,
-    "Wind Speed": 1.5,
-    "Precipitation (%)": 82,
-    "Cloud Cover": "clear",
-    "Atmospheric Pressure": 1026.25,
-    "UV Index": 7,
-    Season: "Spring",
-    "Visibility (km)": 1,
-    Location: "coastal",
   },
 };
-
+const attributeLabels = {
+  gender: "Gender",
+  age: "Age",
+  hypertension: "Hypertension",
+  heart_disease: "Heart Disease",
+  smoking_history: "Smoking History",
+  bmi: "BMI",
+  HbA1c_level: "HbA1c Level",
+  blood_glucose_level: "Blood Glucose Level",
+  cp: "Chest Pain Type",
+  trtbps: "Resting Blood Pressure",
+  fbs: "Fasting Blood Sugar",
+  restecg: "Resting Electrocardiogram",
+  thalachh: "Maximum Heart Rate",
+  exng: "Exercise Induced Angina",
+  oldpeak: "Oldpeak",
+  slp: "Slope of Peak Exercise ST Segment",
+  caa: "Number of Major Vessels",
+  thall: "Thalassemia",
+};
+const imageLabels = {
+  tumor: "X-Ray for Brain Tumor",
+  skinCancer: "X-Ray for Alzheimer",
+  lungCancer: "Image for Skin",
+  alzheimer: "X-Ray for Lung Disease",
+};
 function DigitalHuman() {
   const [showModal, setShowModal] = useState(false);
   const [fields, setFields] = useState(defaultValues);
@@ -78,6 +72,10 @@ function DigitalHuman() {
   // Toggle main modal
   const toggleModal = () => {
     setShowModal(!showModal);
+  };
+  const closeModal = () => {
+    setShowModal(!showModal);
+    setFields(defaultValues);
   };
 
   // Handle field updates
@@ -109,7 +107,6 @@ function DigitalHuman() {
     }
   };
 
-  console.log("hello", fields.weather["Cloud Cover"]);
   return (
     <div className="app">
       <header className="app-header">
@@ -165,8 +162,9 @@ function DigitalHuman() {
 
           <div className="action-buttons">
             <button className="submit-btn" onClick={toggleModal}>
-              Edit All Values
+              Edit Inputs
             </button>
+            <button className="submit-btn">Submit</button>
           </div>
         </div>
       </div>
@@ -179,22 +177,120 @@ function DigitalHuman() {
             <div className="image-preview-container">
               {Object.entries(fields).map(([key, value]) => (
                 <div key={key} className="image-preview">
-                  <h4>{key.replace(/([A-Z])/g, " $1").trim()}</h4>
+                  {/* <h4>{key.replace(/([A-Z])/g, " ").trim()}</h4> */}
                   {typeof value === "object" && (
                     <div>
-                      {Object.entries(value).map(([field, fieldValue]) => (
-                        <div key={field} className="input-field">
-                          <label>{field.replace(/([A-Z])/g, " $1")}</label>
-                          <input
-                            type="text"
-                            value={fieldValue}
-                            onChange={(e) =>
-                              handleFieldChange(key, field, e.target.value)
-                            }
-                          />
-                        </div>
-                      ))}
-                      {/* Add upload button for tumor, skinCancer, lungCancer, alzheimer */}
+                      {Object.entries(value).map(([field, fieldValue]) => {
+                        if (field === "image") return null; // Skip rendering the image field
+
+                        const renderSelect = (label, options) => (
+                          <div key={field} className="input-field">
+                            <label>{label}</label>
+                            <select
+                              value={fieldValue}
+                              onChange={(e) =>
+                                handleFieldChange(key, field, e.target.value)
+                              }
+                            >
+                              {options.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                  {option.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        );
+
+                        const renderInput = (label, type) => (
+                          <div key={field} className="input-field">
+                            <label>{label}</label>
+                            <input
+                              type={type}
+                              value={fieldValue}
+                              onChange={(e) =>
+                                handleFieldChange(key, field, e.target.value)
+                              }
+                            />
+                          </div>
+                        );
+
+                        // Define options for select fields
+                        const selectOptions = {
+                          gender: [
+                            { value: "Male", label: "Male" },
+                            { value: "Female", label: "Female" },
+                            { value: "Other", label: "Other" },
+                          ],
+                          hypertension: [
+                            { value: "0", label: "No" },
+                            { value: "1", label: "Yes" },
+                          ],
+                          heart_disease: [
+                            { value: "0", label: "No" },
+                            { value: "1", label: "Yes" },
+                          ],
+                          smoking_history: [
+                            { value: "current", label: "Current" },
+                            { value: "ever", label: "Ever" },
+                            { value: "former", label: "Former" },
+                            { value: "never", label: "Never" },
+                            { value: "No Info", label: "No Info" },
+                            { value: "not current", label: "Not Current" },
+                          ],
+                          cp: [
+                            { value: "0", label: "Typical Angina" },
+                            { value: "1", label: "Atypical Angina" },
+                            { value: "2", label: "Non-anginal Pain" },
+                            { value: "3", label: "Asymptomatic" },
+                          ],
+                          restecg: [
+                            { value: "0", label: "Normal" },
+                            { value: "1", label: "ST-T wave normality" },
+                            {
+                              value: "2",
+                              label: "Left ventricular hypertrophy",
+                            },
+                          ],
+                          slp: [
+                            { value: "0", label: "0" },
+                            { value: "1", label: "1" },
+                            { value: "2", label: "2" },
+                          ],
+                          thall: [
+                            { value: "0", label: "0" },
+                            { value: "1", label: "1" },
+                            { value: "2", label: "2" },
+                            { value: "3", label: "3" },
+                          ],
+                        };
+
+                        // Check if the field should render a select or input
+                        if (field in selectOptions) {
+                          return renderSelect(
+                            attributeLabels[field],
+                            selectOptions[field]
+                          );
+                        }
+
+                        // For numeric fields, render an input box
+                        const numericFields = [
+                          "age",
+                          "bmi",
+                          "HbA1c_level",
+                          "blood_glucose_level",
+                          "trtbps",
+                          "fbs",
+                          "thalachh",
+                          "oldpeak",
+                          "caa",
+                        ];
+                        const inputType = numericFields.includes(field)
+                          ? "number"
+                          : "text";
+                        return renderInput(attributeLabels[field], inputType);
+                      })}
+
+                      {/* Show upload button without the input box for the specified keys */}
                       {[
                         "tumor",
                         "skinCancer",
@@ -202,24 +298,24 @@ function DigitalHuman() {
                         "alzheimer",
                       ].includes(key) && (
                         <div className="input-field">
-                          <label>Upload Image</label>
+                          <label>Upload Image for {imageLabels[key]}</label>
                           <input
                             type="file"
                             accept="image/*"
                             onChange={(e) => handleImageUpload(key, e)}
                           />
+                          {value.image && (
+                            <img
+                              src={value.image}
+                              alt="Preview"
+                              style={{
+                                width: "100%",
+                                height: "auto",
+                                marginTop: 10,
+                              }}
+                            />
+                          )}
                         </div>
-                      )}
-                      {value.image && (
-                        <img
-                          src={value.image}
-                          alt={`${key} preview`}
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: 150,
-                            borderRadius: 10,
-                          }}
-                        />
                       )}
                     </div>
                   )}
@@ -230,7 +326,7 @@ function DigitalHuman() {
               <button className="confirm-btn" onClick={toggleModal}>
                 Confirm
               </button>
-              <button className="close-btn" onClick={toggleModal}>
+              <button className="close-btn" onClick={closeModal}>
                 Close
               </button>
             </div>
