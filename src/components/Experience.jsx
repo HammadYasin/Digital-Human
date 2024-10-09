@@ -1,35 +1,28 @@
 import { OrbitControls, useGLTF } from "@react-three/drei";
-import * as THREE from "three"; // Import THREE
+import * as THREE from "three";
 import { useEffect } from "react";
 
 export const Experience = () => {
-  const { scene } = useGLTF("./models/airplane/model.glb");
+  const { scene } = useGLTF("./models/human/model.glb");
 
   useEffect(() => {
     scene.traverse((child) => {
       if (child.isMesh) {
-        // Log each mesh name
-        console.log("Mesh Name:", child.name);
+        // console.log("Mesh Name:", child.name);
 
-        // Apply color to specific parts by name
-        if (child.name === "wing") {
-          // Replace with the actual name of the part
+        if (child.name === "Object_10") {
           child.material = new THREE.MeshStandardMaterial({
             color: "red",
             metalness: 0.5,
             roughness: 0.5,
           });
-        } else if (child.name === "Fuselage") {
-          // Another example
+        } else if (child.name === "Object_10") {
           child.material = new THREE.MeshStandardMaterial({
             color: "green",
             metalness: 0.5,
             roughness: 0.5,
           });
         }
-        // Add additional conditions for other parts as needed
-
-        // Ensure the material updates
         child.material.needsUpdate = true;
       }
     });
@@ -45,5 +38,4 @@ export const Experience = () => {
   );
 };
 
-// Optionally preload your model
-// useGLTF.preload("./models/airplane/model.glb");
+useGLTF.preload("./models/airplane/model.glb");
