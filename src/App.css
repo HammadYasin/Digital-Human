@@ -279,3 +279,16 @@
 .close-btn:hover {
   opacity: 0.9;
 }
+@keyframes spin {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.spinning-logo {
+  animation: spin 5s linear infinite;
+  transform-style: preserve-3d;
+}

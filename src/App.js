@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import logo from "./images/logo_grey.png";
+import Lottie from "react-lottie";
 import background from "./images/background.png";
 import human from "./images/human.png";
+import brain from "./images/brain.png";
+import heart from "./images/heart.png";
+import lungs from "./images/lungs.png";
+import chol from "./images/chol.png";
+import skin from "./images/skin.png";
+import diabetes from "./images/diabetes.png";
+import loading from "./animations/loading_ani.json";
 
 const defaultValues = {
   tumor: {
@@ -63,10 +71,10 @@ const attributeLabels = {
   thall: "Thalassemia",
 };
 const imageLabels = {
-  tumor: "X-Ray for Brain Tumor",
-  skinCancer: "X-Ray for Alzheimer",
-  lungCancer: "Image for Skin",
-  alzheimer: "X-Ray for Lung Disease",
+  tumor: "for Brain Tumor Prediction",
+  skinCancer: "for Skin Disease Prediction",
+  lungCancer: "for Lung Disease Prediction",
+  alzheimer: "for Alzheimer Prediction",
 };
 function DigitalHuman() {
   const [showModal, setShowModal] = useState(false);
@@ -78,6 +86,15 @@ function DigitalHuman() {
   const [dataTu, setDataTu] = useState(null);
   const [dataAl, setDataAl] = useState(null);
   const [dataSk, setDataSk] = useState(null);
+  const [isTransparent, setIsTransparent] = useState(false);
+  const [isOrgan, setIsOrgans] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
+  const [colorDia, setcolorDia] = useState(false);
+  const [colorHea, setcolorHea] = useState(false);
+  const [colorBrain, setcolorBrain] = useState(false);
+  const [colorChol, setcolorChol] = useState(false);
+  const [colorSkin, setcolorSkin] = useState(false);
+  const [colorLung, setcolorLung] = useState(false);
   const toggleModal = () => {
     setShowModal(!showModal);
   };
@@ -110,7 +127,41 @@ function DigitalHuman() {
       reader.readAsDataURL(file);
     }
   };
+  const checkRun = () => {
+    if (
+      dataDia !== null &&
+      dataHea !== null &&
+      dataChol !== null &&
+      dataTu !== null &&
+      dataLu !== null &&
+      dataAl !== null &&
+      dataSk !== null
+    ) {
+      setDataAl(null);
+      setDataChol(null);
+      setDataDia(null);
+      setDataHea(null);
+      setDataLu(null);
+      setDataTu(null);
+      setDataSk(null);
+      setIsOrgans(false);
+      setIsTransparent(false);
+      setcolorDia(false);
+      setcolorHea(false);
+      setcolorBrain(false);
+      setcolorChol(false);
+      setcolorSkin(false);
+      setcolorLung(false);
+      setTimeout(() => {
+        onPressData();
+      }, 2000);
+    } else {
+      onPressData();
+    }
+  };
   const onPressData = async () => {
+    setIsTransparent(true);
+    setIsLoad(true);
     const requestBodyDia = {
       gender: fields.ml.gender,
       age: fields.ml.age,
@@ -173,7 +224,7 @@ function DigitalHuman() {
       image: fields.tumor.image.split(",")[1],
     };
     // console.log("Request Body:", JSON.stringify(requestBodyHea));
-    fetch("http://localhost:5000/diabetes", {
+    fetch("/diabetes", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -187,7 +238,7 @@ function DigitalHuman() {
         }, 1000);
       })
     );
-    fetch("http://localhost:5000/heart", {
+    fetch("/heart", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -201,13 +252,13 @@ function DigitalHuman() {
         }, 1000);
       })
     );
-    fetch("http://localhost:5000/cholesterol", {
+    fetch("/cholesterol", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestBodyHea),
+      body: JSON.stringify(requestBodyChol),
     }).then((res) =>
       res.text().then((dataChol) => {
         setTimeout(() => {
@@ -215,7 +266,7 @@ function DigitalHuman() {
         }, 1000);
       })
     );
-    fetch("http://localhost:5000/tumor", {
+    fetch("/tumor", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -225,11 +276,12 @@ function DigitalHuman() {
     }).then((res) =>
       res.text().then((dataTu) => {
         setTimeout(() => {
-          setDataTu(dataTu);
+          const parsedData = JSON.parse(dataTu);
+          setDataTu(parsedData);
         }, 1000);
       })
     );
-    fetch("http://localhost:5000/alzheimer", {
+    fetch("/alzheimer", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -239,11 +291,12 @@ function DigitalHuman() {
     }).then((res) =>
       res.text().then((dataAl) => {
         setTimeout(() => {
-          setDataAl(dataAl);
+          const parsedData = JSON.parse(dataAl);
+          setDataAl(parsedData);
         }, 1000);
       })
     );
-    fetch("http://localhost:5000/skin", {
+    fetch("/skin", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -253,11 +306,12 @@ function DigitalHuman() {
     }).then((res) =>
       res.text().then((dataSk) => {
         setTimeout(() => {
-          setDataSk(dataSk);
+          const parsedData = JSON.parse(dataSk);
+          setDataSk(parsedData);
         }, 1000);
       })
     );
-    fetch("http://localhost:5000/lung", {
+    fetch("/lung", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -267,7 +321,8 @@ function DigitalHuman() {
     }).then((res) =>
       res.text().then((dataLu) => {
         setTimeout(() => {
-          setDataLu(dataLu);
+          const parsedData = JSON.parse(dataLu);
+          setDataLu(parsedData);
         }, 1000);
       })
     );
@@ -279,16 +334,179 @@ function DigitalHuman() {
   // console.log("Output Lung:", dataLu);
   // console.log("Output Alzheimer:", dataAl);
   // console.log("Output Skin:", dataSk);
-  // console.log(dataTu.prediction);
-  useEffect(() => {}, [
-    dataDia,
-    dataHea,
-    dataChol,
-    dataTu,
-    dataLu,
-    dataAl,
-    dataSk,
-  ]);
+  // console.log(dataTu.confidence);
+  const checkOrganData = () => {
+    if (
+      dataDia !== null &&
+      dataHea !== null &&
+      dataChol !== null &&
+      dataTu !== null &&
+      dataLu !== null &&
+      dataAl !== null &&
+      dataSk !== null
+    ) {
+      setColorsBasedOnData();
+      setIsOrgans(true);
+      setIsLoad(false);
+    }
+  };
+  const setColorsBasedOnData = () => {
+    setcolorDia(dataDia === "Diabetes");
+    setcolorHea(dataHea === "Heart Attack");
+    const cholValue = parseFloat(dataChol);
+    if (!isNaN(cholValue)) {
+      if (cholValue < 205) {
+        setcolorChol(false);
+      } else if (cholValue >= 205 && cholValue <= 239) {
+        setcolorChol(true);
+      } else {
+        setcolorChol(true);
+      }
+    }
+    setcolorLung(dataLu.prediction === "PNEUMONIA");
+    const tumorConfidence = parseFloat(dataTu.confidence);
+    if (!isNaN(tumorConfidence)) {
+      switch (dataTu.prediction) {
+        case "Glioma":
+        case "Meningioma":
+        case "Pituitary":
+          setcolorBrain(tumorConfidence >= 70);
+          break;
+        default:
+          setcolorBrain(false);
+      }
+    }
+    const alzConfidence = parseFloat(dataAl.confidence);
+    if (!isNaN(alzConfidence)) {
+      switch (dataAl.predicted_class) {
+        case "NonDemented":
+          setcolorBrain(false);
+          break;
+        case "VeryMildDemented":
+        case "MildDemented":
+        case "ModerateDemented":
+          setcolorBrain(alzConfidence >= 70);
+          break;
+        default:
+          setcolorBrain(false);
+      }
+    }
+    const skinConfidence = parseFloat(dataSk.confidence);
+    if (!isNaN(skinConfidence)) {
+      switch (dataSk.predicted_class) {
+        case "Benign":
+          setcolorSkin(false);
+          break;
+        case "Malignant":
+          setcolorSkin(skinConfidence >= 70);
+          break;
+        default:
+          setcolorSkin(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkOrganData();
+  }, [dataDia, dataHea, dataChol, dataTu, dataLu, dataAl, dataSk]);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loading,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const ClearInputs = async () => {
+    setIsTransparent(false);
+    setIsOrgans(false);
+    setIsLoad(false);
+    setDataAl(null);
+    setDataChol(null);
+    setDataDia(null);
+    setDataHea(null);
+    setDataLu(null);
+    setDataTu(null);
+    setDataSk(null);
+    setcolorDia(false);
+    setcolorHea(false);
+    setcolorBrain(false);
+    setcolorChol(false);
+    setcolorSkin(false);
+    setcolorLung(false);
+  };
+  const healthRecommendations = [
+    {
+      value: colorDia,
+      disease: "Diabetes",
+      lifestyleChanges: [
+        "Diet: Focus on low glycemic index foods, high fiber, lean proteins, and healthy fats. Limit sugars and refined carbohydrates.",
+        "Exercise: Regular physical activity (30-60 minutes daily), including aerobic exercise and strength training.",
+        "Weight Management: Maintaining a healthy weight can significantly improve insulin sensitivity.",
+        "Blood Sugar Monitoring: Regular self-monitoring to ensure glucose levels are within target ranges.",
+      ],
+    },
+    {
+      value: colorHea,
+      disease: "Cardiovascular Diseases",
+      lifestyleChanges: [
+        "Heart-Healthy Diet: Mediterranean or DASH diet, rich in fruits, vegetables, whole grains, lean proteins, and low in saturated fats and sodium.",
+        "Exercise: At least 150 minutes of moderate aerobic activity per week, combined with resistance training.",
+        "Quit Smoking: Stopping smoking can significantly reduce heart disease risk.",
+        "Manage Stress: Mindfulness, yoga, or other relaxation techniques.",
+      ],
+    },
+    {
+      value: colorChol,
+      disease: "Cholesterol",
+      lifestyleChanges: [
+        "Diet: Low saturated and trans fat, high in fiber, particularly soluble fiber from oats, legumes, fruits, and vegetables.",
+        "Exercise: Regular aerobic exercise (30 minutes most days) can help raise HDL (good cholesterol) and lower LDL (bad cholesterol).",
+        "Weight Management: Losing excess weight can help improve cholesterol levels.",
+        "Avoid Tobacco: Smoking cessation increases HDL cholesterol.",
+      ],
+    },
+    {
+      value: colorBrain,
+      disease: "Brain Tumor",
+      lifestyleChanges: [
+        "Healthy Diet: Focus on nutrient-dense foods like vegetables, lean proteins, and whole grains to support overall health.",
+        "Rest: Adequate sleep and rest to manage fatigue and cognitive load.",
+        "Stress Reduction: Mindfulness, counseling, or cognitive therapy to cope with the psychological impact.",
+        "Exercise: Light physical activity as tolerated to maintain strength and mobility.",
+      ],
+    },
+    {
+      value: colorBrain,
+      disease: "Alzheimer's",
+      lifestyleChanges: [
+        "Mental Stimulation: Cognitive exercises, puzzles, reading, or learning new skills to maintain brain function.",
+        "Healthy Diet: Mediterranean or MIND diet rich in leafy greens, berries, and omega-3 fatty acids.",
+        "Exercise: Regular physical activity, especially aerobic exercises, to improve blood flow to the brain.",
+        "Social Engagement: Maintaining social interactions to reduce cognitive decline.",
+      ],
+    },
+    {
+      value: colorSkin,
+      disease: "Skin Cancer",
+      lifestyleChanges: [
+        "Sun Protection: Use broad-spectrum sunscreen (SPF 30 or higher), seek shade, wear protective clothing, and avoid tanning beds.",
+        "Regular Skin Checks: Self-examinations for new or changing moles, and routine dermatologist visits.",
+        "Healthy Diet: Antioxidant-rich foods (fruits, vegetables) may help support skin health.",
+      ],
+    },
+    {
+      value: colorLung,
+      disease: "Respiratory Diseases",
+      lifestyleChanges: [
+        "Quit Smoking: The most important factor in preventing and managing respiratory diseases.",
+        "Air Quality: Avoid exposure to pollutants, dust, and allergens. Use air purifiers if necessary.",
+        "Exercise: Pulmonary rehabilitation exercises to strengthen respiratory muscles.",
+        "Balanced Diet: Healthy eating habits to maintain overall health, including adequate hydration.",
+      ],
+    },
+  ];
   return (
     <div
       className="app"
@@ -298,7 +516,7 @@ function DigitalHuman() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <header className="app-header">
+      <header className="app-header" style={{ marginTop: 10 }}>
         <div
           style={{
             display: "flex",
@@ -309,7 +527,8 @@ function DigitalHuman() {
           <img
             src={logo}
             alt="Logo"
-            style={{ height: 80, width: 80, paddingLeft: 20 }}
+            className="spinning-logo"
+            style={{ height: 80, width: 80, marginLeft: 30 }}
           />
           <h1 style={{ marginRight: 30, fontSize: 30, color: "white" }}>
             Human Twin
@@ -325,9 +544,191 @@ function DigitalHuman() {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <img src={human} alt="Logo" style={{ height: 1000, width: 270 }} />
-        </div>
+          <div
+            style={{ position: "relative", width: "270px", height: "650px" }}
+          >
+            <img
+              src={human}
+              alt="Human"
+              style={{
+                height: "100%",
+                width: "100%",
+                opacity: isTransparent ? 0.2 : 1,
+                transition: "opacity 0.5s ease",
+              }}
+            />
+            {isOrgan && (
+              <>
+                <img
+                  src={brain}
+                  alt="Brain"
+                  style={{
+                    position: "absolute",
+                    top: "3.5%",
+                    left: "50%",
+                    height: "40px",
+                    width: "65px",
+                    transform: "translate(-50%, -50%)",
+                    filter: colorBrain
+                      ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
+                      : "none",
+                    opacity: isOrgan ? 1 : 0,
+                  }}
+                />
+                <img
+                  src={heart}
+                  alt="Heart"
+                  style={{
+                    position: "absolute",
+                    top: "24%",
+                    left: "60%",
+                    height: "80px",
+                    width: "60px",
+                    transform: "translate(-50%, -50%)",
+                    filter: colorHea
+                      ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
+                      : "none",
+                    opacity: isOrgan ? 1 : 0,
+                  }}
+                />
+                <img
+                  src={chol}
+                  alt="Cholesterol"
+                  style={{
+                    position: "absolute",
+                    top: "29%",
+                    left: "55%",
+                    height: "180px",
+                    width: "180px",
+                    transform: "translate(-50%, -50%)",
+                    filter: colorChol
+                      ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
+                      : "none",
+                    opacity: isOrgan ? 1 : 0,
+                  }}
+                />
+                <img
+                  src={lungs}
+                  alt="Lungs"
+                  style={{
+                    position: "absolute",
+                    top: "34%",
+                    left: "50%",
+                    height: "120px",
+                    width: "120px",
+                    transform: "translate(-50%, -50%)",
+                    filter: colorLung
+                      ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
+                      : "none",
+                    opacity: isOrgan ? 1 : 0,
+                  }}
+                />
+                <img
+                  src={diabetes}
+                  alt="Diabetes"
+                  style={{
+                    position: "absolute",
+                    top: "47%",
+                    left: "40%",
+                    height: "60px",
+                    width: "60px",
+                    transform: "translate(-50%, -50%)",
+                    filter: colorDia
+                      ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
+                      : "none",
+                    opacity: isOrgan ? 1 : 0,
+                  }}
+                />
+                <img
+                  src={skin}
+                  alt="Skin"
+                  style={{
+                    position: "absolute",
+                    top: "38%",
+                    left: "17%",
+                    height: "60px",
+                    width: "60px",
+                    transform: "translate(-50%, -50%)",
+                    filter: colorSkin
+                      ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
+                      : "none",
+                    opacity: isOrgan ? 1 : 0,
+                  }}
+                />
+              </>
+            )}
 
+            {isLoad && (
+              <>
+                <Lottie
+                  speed={1}
+                  options={defaultOptions}
+                  style={{
+                    height: "auto",
+                    width: "50",
+                    maxWidth: 50,
+                    position: "absolute",
+                    top: "3%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+                <Lottie
+                  speed={1}
+                  options={defaultOptions}
+                  style={{
+                    height: "auto",
+                    width: "50",
+                    maxWidth: 50,
+                    position: "absolute",
+                    top: "24%",
+                    left: "60%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+                <Lottie
+                  speed={1}
+                  options={defaultOptions}
+                  style={{
+                    height: "auto",
+                    width: "50",
+                    maxWidth: 50,
+                    position: "absolute",
+                    top: "29%",
+                    left: "40%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+                <Lottie
+                  speed={1}
+                  options={defaultOptions}
+                  style={{
+                    height: "auto",
+                    width: "50",
+                    maxWidth: 50,
+                    position: "absolute",
+                    top: "39%",
+                    left: "18%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+                <Lottie
+                  speed={1}
+                  options={defaultOptions}
+                  style={{
+                    height: "auto",
+                    width: "50",
+                    maxWidth: 50,
+                    position: "absolute",
+                    top: "47%",
+                    left: "40%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+              </>
+            )}
+          </div>
+        </div>
         <div className="prediction-section">
           <h3 style={{ color: "white" }}>User Predictions</h3>
           <ul
@@ -337,63 +738,230 @@ function DigitalHuman() {
               fontFamily: "Arial, sans-serif",
             }}
           >
-            <li style={{ marginBottom: "10px", color: "#333" }}>
-              <strong style={{ color: "white" }}>Diabetes:</strong> {dataDia}
-            </li>
-            <li style={{ marginBottom: "10px", color: "#333" }}>
-              <strong style={{ color: "white" }}>Heart Attack Risk:</strong>{" "}
-              {dataHea}
-            </li>
-            <li style={{ marginBottom: "10px", color: "#333" }}>
-              <strong style={{ color: "white" }}>Cholesterol Level:</strong>{" "}
-              {dataChol}
-            </li>
-            {dataTu && (
-              <li style={{ marginBottom: "10px", color: "#333" }}>
-                <strong style={{ color: "white" }}>Tumor Prediction:</strong>{" "}
-                {dataTu.prediction} (Confidence: {dataTu.confidence})
+            {dataDia && (
+              <li
+                style={{
+                  marginBottom: "15px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <strong style={{ color: "white" }}>
+                  Diabetes Risk Prediction:
+                </strong>
+                <span
+                  style={{
+                    color: colorDia ? "red" : "white",
+                    fontSize: "16px",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {dataDia}
+                </span>
+              </li>
+            )}
+            {dataHea && (
+              <li
+                style={{
+                  marginBottom: "15px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <strong style={{ color: "white" }}>
+                  Heart Attack Risk Prediction:
+                </strong>
+                <span
+                  style={{
+                    color: colorHea ? "orange" : "white",
+                    fontSize: "16px",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {dataHea}
+                </span>
+              </li>
+            )}
+            {dataChol && (
+              <li
+                style={{
+                  marginBottom: "15px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <strong style={{ color: "white" }}>
+                  Cholesterol Level Prediction:
+                </strong>
+                <span
+                  style={{
+                    color: colorChol ? "green" : "white",
+                    fontSize: "16px",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {Math.round(dataChol)}
+                </span>
               </li>
             )}
             {dataLu && (
-              <li style={{ marginBottom: "10px", color: "#333" }}>
-                <strong style={{ color: "white" }}>Lung Condition:</strong>{" "}
-                {dataLu.prediction}
+              <li
+                style={{
+                  marginBottom: "15px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <strong style={{ color: "white" }}>
+                  Lung Disease Prediction:
+                </strong>
+                <span
+                  style={{
+                    color: colorLung ? "blue" : "white",
+                    fontSize: "16px",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {dataLu.prediction}
+                </span>
+              </li>
+            )}
+            {dataTu && (
+              <li
+                style={{
+                  marginBottom: "15px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <strong style={{ color: "white" }}>
+                  Brain Tumor Prediction:
+                </strong>
+                <span
+                  style={{
+                    color: colorBrain ? "purple" : "white",
+                    fontSize: "16px",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {dataTu.prediction} (Confidence: {dataTu.confidence})
+                </span>
               </li>
             )}
             {dataAl && (
-              <li style={{ marginBottom: "10px", color: "#333" }}>
+              <li
+                style={{
+                  marginBottom: "15px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
                 <strong style={{ color: "white" }}>
-                  Alzheimer's Prediction:
-                </strong>{" "}
-                {dataAl.predicted_class} (Confidence: {dataAl.confidence}%)
+                  Alzheimer Prediction:
+                </strong>
+                <span
+                  style={{
+                    color: colorBrain ? "brown" : "white",
+                    fontSize: "16px",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {dataAl.predicted_class} (Confidence: {dataAl.confidence}%)
+                </span>
               </li>
             )}
             {dataSk && (
-              <li style={{ marginBottom: "10px", color: "#333" }}>
-                <strong style={{ color: "white" }}>Skin Condition:</strong>{" "}
-                {dataSk.predicted_class} (Confidence: {dataSk.confidence})
+              <li
+                style={{
+                  marginBottom: "15px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <strong style={{ color: "white" }}>
+                  Skin Condition Prediction:
+                </strong>
+                <span
+                  style={{
+                    color: colorSkin ? "pink" : "white",
+                    fontSize: "16px",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {dataSk.predicted_class} (Confidence: {dataSk.confidence})
+                </span>
               </li>
             )}
           </ul>
 
-          <h3 style={{ color: "white" }}>Health Prediction</h3>
-          <div className="prediction-bar">
-            <label style={{ color: "white" }}>Age</label>
-            <div className="bar age"></div>
+          {(colorDia ||
+            colorHea ||
+            colorChol ||
+            colorBrain ||
+            colorSkin ||
+            colorLung) && (
+            <h4
+              style={{
+                color: "#FFD700",
+                fontSize: "18px",
+                marginBottom: "1rem",
+              }}
+            >
+              Health Recommendations
+            </h4>
+          )}
+          <div>
+            {healthRecommendations.map((item, index) =>
+              item.value ? (
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: "1rem",
+                    padding: "10px",
+                    backgroundColor: "#333",
+                    borderRadius: "35px",
+                  }}
+                >
+                  <h4 style={{ color: "#87CEFA", fontSize: "13px" }}>
+                    {item.disease}
+                  </h4>
+                  <ul
+                    style={{
+                      listStyleType: "disc",
+                      marginLeft: "1.5rem",
+                      color: "#FFFFFF",
+                      fontSize: "13px",
+                    }}
+                  >
+                    {item.lifestyleChanges.map((change, index) => (
+                      <li key={index}>{change}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null
+            )}
           </div>
 
           <div className="action-buttons">
             <button className="submit-btn" onClick={toggleModal}>
               Edit Inputs
             </button>
-            <button className="submit-btn" onClick={onPressData}>
+            <button className="submit-btn" onClick={checkRun}>
               Submit
+            </button>
+            <button className="submit-btn" onClick={ClearInputs}>
+              Clear Results
             </button>
           </div>
         </div>
       </div>
-
-      {/* Main modal for editing values */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -405,7 +973,7 @@ function DigitalHuman() {
                   {typeof value === "object" && (
                     <div>
                       {Object.entries(value).map(([field, fieldValue]) => {
-                        if (field === "image") return null; // Skip rendering the image field
+                        if (field === "image") return null;
 
                         const renderSelect = (label, options) => (
                           <div key={field} className="input-field">
@@ -437,8 +1005,6 @@ function DigitalHuman() {
                             />
                           </div>
                         );
-
-                        // Define options for select fields
                         const selectOptions = {
                           gender: [
                             { value: "Male", label: "Male" },
@@ -486,16 +1052,12 @@ function DigitalHuman() {
                             { value: "3", label: "3" },
                           ],
                         };
-
-                        // Check if the field should render a select or input
                         if (field in selectOptions) {
                           return renderSelect(
                             attributeLabels[field],
                             selectOptions[field]
                           );
                         }
-
-                        // For numeric fields, render an input box
                         const numericFields = [
                           "age",
                           "bmi",
@@ -512,8 +1074,6 @@ function DigitalHuman() {
                           : "text";
                         return renderInput(attributeLabels[field], inputType);
                       })}
-
-                      {/* Show upload button without the input box for the specified keys */}
                       {[
                         "tumor",
                         "skinCancer",
@@ -563,7 +1123,6 @@ function DigitalHuman() {
           height: 30,
           textAlign: "center",
           width: "100%",
-          marginTop: 20,
           alignContent: "center",
           border: "1px solid black",
         }}
