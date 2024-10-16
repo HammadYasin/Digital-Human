@@ -20,7 +20,7 @@
   justify-content: space-between;
   width: 100%;
   max-width: 1800px;
-  height: calc(85vh - 40px);
+  height: calc(90vh - 40px);
   padding: 20px;
   overflow: hidden;
   /* margin-bottom: 1%; */
@@ -38,6 +38,11 @@
   box-shadow: 10px 10px 10px rgba(28, 28, 36, 0.5);
   overflow-y: auto;
   border: 10px solid #1c1c24;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.human-model-section::-webkit-scrollbar {
+  display: none;
 }
 
 .human-model {
@@ -89,6 +94,9 @@
   overflow-y: auto;
   border: 2px solid #1c1c24;
   margin-left: 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* height: 1000px; */
 }
 .health-section {
   width: 100%;
@@ -108,6 +116,9 @@
 }
 
 .health-section::-webkit-scrollbar {
+  display: none;
+}
+.prediction-section ::-webkit-scrollbar {
   display: none;
 }
 
@@ -179,7 +190,7 @@
 .action-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  /* margin-top: 10px; */
 }
 
 .submit-btn,
