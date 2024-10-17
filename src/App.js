@@ -66,22 +66,22 @@ const defaultValues = {
 };
 const attributeLabels = {
   gender: "Gender",
-  age: "Age",
+  age: "Age (1 to 100)",
   hypertension: "Hypertension",
   heart_disease: "Heart Disease",
   smoking_history: "Smoking History",
-  bmi: "BMI",
-  HbA1c_level: "HbA1c Level",
-  blood_glucose_level: "Blood Glucose Level",
+  bmi: "BMI (10 to 40)",
+  HbA1c_level: "HbA1c Level (2 to 10)",
+  blood_glucose_level: "Blood Glucose Level (20 to 500)",
   cp: "Chest Pain Type",
-  trtbps: "Resting Blood Pressure",
-  fbs: "Fasting Blood Sugar",
+  trtbps: "Resting Blood Pressure (60 to 350)",
+  fbs: "Fasting Blood Sugar (20 to 500)",
   restecg: "Resting Electrocardiogram",
-  thalachh: "Maximum Heart Rate",
-  exng: "Exercise Induced Angina",
-  oldpeak: "Oldpeak",
+  thalachh: "Maximum Heart Rate (30 to 220)",
+  exng: "Exercise Induced Angina (0 to 1)",
+  oldpeak: "Oldpeak (0 to 8)",
   slp: "Slope of Peak Exercise ST Segment",
-  caa: "Number of Major Vessels",
+  caa: "Number of Major Vessels (0 to 4)",
   thall: "Thalassemia",
 };
 const imageLabels = {
@@ -670,6 +670,7 @@ function DigitalHuman() {
             backgroundImage: `url(${human_back})`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
+            marginTop: 60,
           }}
         >
           <div
@@ -900,420 +901,413 @@ function DigitalHuman() {
               transform: "translate(-50%, -50%)",
             }}
           /> */}
-          {isLoad && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                position: "absolute",
-                top: "85%",
-                left: "56%",
-                transform: "translate(-50%, -50%)",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              <h3 style={{ color: "#0FCCCE", fontSize: 18 }}>
-                Analyzing Results
-              </h3>
-              <Lottie
-                speed={0.8}
-                options={defaultOptions_analyz}
-                style={{
-                  width: "30px",
-                }}
-              />
-            </div>
-          )}
         </div>
         <div className="prediction-section">
           <div
             style={{
               display: "flex",
               justifyContent: "center",
+              alignItems: "center",
               flexWrap: "wrap",
               gap: "20px",
               fontFamily: "Arial, sans-serif",
+              height: "100vh",
             }}
           >
-            {dataDia && (
+            {isLoad && (
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  // position: "absolute",
+                  // top: "85%",
+                  // left: "56%",
+                  // transform: "translate(-50%, -50%)",
+                  justifyContent: "center",
                   alignItems: "center",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "200px",
-                  minHeight: "50px",
+                  margin: 0,
+                  padding: 0,
                 }}
               >
-                <div
+                <h3 style={{ color: "#0FCCCE", fontSize: 18, marginRight: 10 }}>
+                  AI Engine Running
+                </h3>
+                <Lottie
+                  speed={0.8}
+                  options={defaultOptions_analyz}
                   style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#02061B",
-                    width: "100%",
-                    borderRadius: "5px",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    display: "flex",
+                    width: "30px",
                   }}
-                >
-                  <strong style={{ color: "white" }}>
-                    Diabetes Risk Prediction
-                  </strong>
-                </div>
-                <div
-                  style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#1A1A2E",
-                    width: "80%",
-                    borderRadius: "5px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
-                  }}
-                >
-                  <span
-                    style={{
-                      color: colorDia ? "brown" : "white",
-                      fontSize: "16px",
-                    }}
-                  >
-                    {dataDia}
-                  </span>
-                </div>
+                />
               </div>
             )}
-
-            {dataHea && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "200px",
-                  minHeight: "50px",
-                }}
-              >
+            {isOrgan && (
+              <>
                 <div
                   style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#02061B",
-                    width: "100%",
-                    borderRadius: "5px",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
                     display: "flex",
-                  }}
-                >
-                  <strong style={{ color: "white" }}>
-                    Heart Attack Prediction
-                  </strong>
-                </div>
-                <div
-                  style={{
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#1A1A2E",
-                    width: "80%",
-                    borderRadius: "5px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
+                    borderRadius: "10px",
+                    width: "200px",
+                    minHeight: "50px",
                   }}
                 >
-                  <span
+                  <div
                     style={{
-                      color: colorHea ? "brown" : "white",
-                      fontSize: "16px",
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#02061B",
+                      width: "100%",
+                      borderRadius: "5px",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
                     }}
                   >
-                    {dataHea}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {dataChol && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "200px",
-                  minHeight: "50px",
-                }}
-              >
-                <div
-                  style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#02061B",
-                    width: "100%",
-                    borderRadius: "5px",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  <strong style={{ color: "white" }}>
-                    Cholesterol Prediction
-                  </strong>
-                </div>
-                <div
-                  style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#1A1A2E",
-                    width: "80%",
-                    borderRadius: "5px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
-                  }}
-                >
-                  <span
+                    <strong style={{ color: "white" }}>
+                      Diabetes Risk Prediction
+                    </strong>
+                  </div>
+                  <div
                     style={{
-                      color: colorChol ? "brown" : "white",
-                      fontSize: "16px",
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#1A1A2E",
+                      width: "80%",
+                      borderRadius: "5px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
-                    {Math.round(dataChol)}
-                  </span>
+                    <span
+                      style={{
+                        color: colorDia ? "brown" : "white",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {dataDia}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
 
-            {dataLu && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "200px",
-                  minHeight: "50px",
-                }}
-              >
                 <div
                   style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#02061B",
-                    width: "100%",
-                    borderRadius: "5px",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
                     display: "flex",
-                  }}
-                >
-                  <strong style={{ color: "white" }}>
-                    Lung Disease Prediction
-                  </strong>
-                </div>
-                <div
-                  style={{
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#1A1A2E",
-                    width: "80%",
-                    borderRadius: "5px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
+                    borderRadius: "10px",
+                    width: "200px",
+                    minHeight: "50px",
                   }}
                 >
-                  <span
+                  <div
                     style={{
-                      color: colorLung ? "brown" : "white",
-                      fontSize: "16px",
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#02061B",
+                      width: "100%",
+                      borderRadius: "5px",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
                     }}
                   >
-                    {dataLu.prediction}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {dataTu && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "200px",
-                  minHeight: "50px",
-                }}
-              >
-                <div
-                  style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#02061B",
-                    width: "100%",
-                    borderRadius: "5px",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  <strong style={{ color: "white" }}>
-                    Brain Tumor Prediction
-                  </strong>
-                </div>
-                <div
-                  style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#1A1A2E",
-                    width: "80%",
-                    borderRadius: "5px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
-                  }}
-                >
-                  <span
+                    <strong style={{ color: "white" }}>
+                      Heart Attack Prediction
+                    </strong>
+                  </div>
+                  <div
                     style={{
-                      color: colorBrain ? "brown" : "white",
-                      fontSize: "16px",
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#1A1A2E",
+                      width: "80%",
+                      borderRadius: "5px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
-                    {dataTu.prediction} (Confidence: {dataTu.confidence})
-                  </span>
+                    <span
+                      style={{
+                        color: colorHea ? "brown" : "white",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {dataHea}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
 
-            {dataAl && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "200px",
-                  minHeight: "50px",
-                }}
-              >
                 <div
                   style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#02061B",
-                    width: "100%",
-                    borderRadius: "5px",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
                     display: "flex",
-                  }}
-                >
-                  <strong style={{ color: "white" }}>
-                    Alzheimer Prediction
-                  </strong>
-                </div>
-                <div
-                  style={{
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#1A1A2E",
-                    width: "80%",
-                    borderRadius: "5px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
+                    borderRadius: "10px",
+                    width: "200px",
+                    minHeight: "50px",
                   }}
                 >
-                  <span
+                  <div
                     style={{
-                      color: colorAlz ? "brown" : "white",
-                      fontSize: "16px",
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#02061B",
+                      width: "100%",
+                      borderRadius: "5px",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
                     }}
                   >
-                    {dataAl.predicted_class} (Confidence: {dataAl.confidence}%)
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {dataSk && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  width: "200px",
-                  minHeight: "50px",
-                }}
-              >
-                <div
-                  style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#02061B",
-                    width: "100%",
-                    borderRadius: "5px",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  <strong style={{ color: "white" }}>
-                    Skin Condition Prediction
-                  </strong>
-                </div>
-                <div
-                  style={{
-                    padding: "10px",
-                    textAlign: "center",
-                    backgroundColor: "#1A1A2E",
-                    width: "80%",
-                    borderRadius: "5px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
-                  }}
-                >
-                  <span
+                    <strong style={{ color: "white" }}>
+                      Cholesterol Prediction
+                    </strong>
+                  </div>
+                  <div
                     style={{
-                      color: colorSkin ? "brown" : "white",
-                      fontSize: "16px",
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#1A1A2E",
+                      width: "80%",
+                      borderRadius: "5px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
-                    {dataSk.predicted_class} (Confidence: {dataSk.confidence})
-                  </span>
+                    <span
+                      style={{
+                        color: colorChol ? "brown" : "white",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {Math.round(dataChol)}
+                    </span>
+                  </div>
                 </div>
-              </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    width: "200px",
+                    minHeight: "50px",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#02061B",
+                      width: "100%",
+                      borderRadius: "5px",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <strong style={{ color: "white" }}>
+                      Lung Disease Prediction
+                    </strong>
+                  </div>
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#1A1A2E",
+                      width: "80%",
+                      borderRadius: "5px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: colorLung ? "brown" : "white",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {dataLu.prediction}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    width: "200px",
+                    minHeight: "50px",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#02061B",
+                      width: "100%",
+                      borderRadius: "5px",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <strong style={{ color: "white" }}>
+                      Brain Tumor Prediction
+                    </strong>
+                  </div>
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#1A1A2E",
+                      width: "80%",
+                      borderRadius: "5px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: colorBrain ? "brown" : "white",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {dataTu.prediction} (Confidence: {dataTu.confidence})
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    width: "200px",
+                    minHeight: "50px",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#02061B",
+                      width: "100%",
+                      borderRadius: "5px",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <strong style={{ color: "white" }}>
+                      Alzheimer Prediction
+                    </strong>
+                  </div>
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#1A1A2E",
+                      width: "80%",
+                      borderRadius: "5px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: colorAlz ? "brown" : "white",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {dataAl.predicted_class} (Confidence: {dataAl.confidence}
+                      %)
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    width: "200px",
+                    minHeight: "50px",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#02061B",
+                      width: "100%",
+                      borderRadius: "5px",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <strong style={{ color: "white" }}>
+                      Skin Condition Prediction
+                    </strong>
+                  </div>
+                  <div
+                    style={{
+                      padding: "10px",
+                      textAlign: "center",
+                      backgroundColor: "#1A1A2E",
+                      width: "80%",
+                      borderRadius: "5px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: colorSkin ? "brown" : "white",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {dataSk.predicted_class} (Confidence: {dataSk.confidence})
+                    </span>
+                  </div>
+                </div>
+              </>
             )}
           </div>
 
