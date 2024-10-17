@@ -16,6 +16,7 @@ import diabetes from "./images/diabetes.png";
 import loading from "./animations/loading_ani.json";
 import pulse from "./animations/pulse.json";
 import health_ani from "./animations/health_reco.json";
+import analyzing from "./animations/analyzing.json";
 // Health Recommendations
 import brain_icon from "./icons/brain_ico.png";
 import lungs_icon from "./icons/lungs_ico.png";
@@ -460,6 +461,14 @@ function DigitalHuman() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const defaultOptions_analyz = {
+    loop: true,
+    autoplay: true,
+    animationData: analyzing,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   const ClearInputs = async () => {
     setIsTransparent(false);
     setIsOrgans(false);
@@ -861,6 +870,33 @@ function DigitalHuman() {
               transform: "translate(-50%, -50%)",
             }}
           />
+          {isLoad && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                position: "absolute",
+                top: "85%",
+                left: "56%",
+                transform: "translate(-50%, -50%)",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <h3 style={{ color: "#0FCCCE", fontSize: 18 }}>
+                Analyzing Results
+              </h3>
+              <Lottie
+                speed={0.8}
+                options={defaultOptions_analyz}
+                style={{
+                  width: "30px",
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className="prediction-section">
           <div
@@ -1252,13 +1288,28 @@ function DigitalHuman() {
           </div>
 
           <div className="action-buttons">
-            <button className="submit-btn" onClick={toggleModal}>
+            <button
+              className="submit-btn"
+              onClick={isLoad ? (e) => e.preventDefault() : toggleModal}
+              disabled={isLoad}
+              style={{ backgroundColor: isLoad ? "grey" : "#4b9cd3" }}
+            >
               Edit Inputs
             </button>
-            <button className="submit-btn" onClick={checkRun}>
+            <button
+              className="submit-btn"
+              onClick={isLoad ? (e) => e.preventDefault() : checkRun}
+              disabled={isLoad}
+              style={{ backgroundColor: isLoad ? "grey" : "#4b9cd3" }}
+            >
               Submit
             </button>
-            <button className="submit-btn" onClick={ClearInputs}>
+            <button
+              className="submit-btn"
+              onClick={isLoad ? (e) => e.preventDefault() : ClearInputs}
+              disabled={isLoad}
+              style={{ backgroundColor: isLoad ? "grey" : "#4b9cd3" }}
+            >
               Clear Results
             </button>
           </div>
