@@ -682,10 +682,13 @@ function DigitalHuman() {
               style={{
                 height: "100%",
                 width: "100%",
-                opacity: isTransparent ? 0.2 : 1,
+                opacity: isTransparent ? 0.3 : 1,
                 transition: "opacity 0.5s ease",
+                position: "relative",
+                zIndex: 10,
               }}
             />
+
             {isOrgan && (
               <>
                 <img
@@ -703,6 +706,7 @@ function DigitalHuman() {
                         ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
                         : "none",
                     opacity: isOrgan ? 1 : 0,
+                    zIndex: 1,
                   }}
                 />
                 <img
@@ -719,6 +723,7 @@ function DigitalHuman() {
                       ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
                       : "none",
                     opacity: isOrgan ? 1 : 0,
+                    zIndex: 1,
                   }}
                 />
                 <img
@@ -735,6 +740,7 @@ function DigitalHuman() {
                       ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
                       : "none",
                     opacity: isOrgan ? 1 : 0,
+                    zIndex: 1,
                   }}
                 />
                 <img
@@ -751,6 +757,7 @@ function DigitalHuman() {
                       ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
                       : "none",
                     opacity: isOrgan ? 1 : 0,
+                    zIndex: 1,
                   }}
                 />
                 <img
@@ -767,6 +774,7 @@ function DigitalHuman() {
                       ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
                       : "none",
                     opacity: isOrgan ? 1 : 0,
+                    zIndex: 1,
                   }}
                 />
                 <img
@@ -783,10 +791,12 @@ function DigitalHuman() {
                       ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
                       : "none",
                     opacity: isOrgan ? 1 : 0,
+                    zIndex: 1,
                   }}
                 />
               </>
             )}
+
             {isLoad && (
               <>
                 <Lottie
