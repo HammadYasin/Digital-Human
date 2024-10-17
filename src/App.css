@@ -26,6 +26,23 @@
   overflow: hidden;
   margin-bottom: 1%;
 }
+@keyframes backgroundMove {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 50% 15%;
+  }
+  50% {
+    background-position: 100% 30%;
+  }
+  75% {
+    background-position: 50% 15%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
 
 .human-model-section {
   display: flex;
@@ -44,6 +61,8 @@
   height: 85%;
   justify-content: center;
   margin: auto;
+  animation: backgroundMove 10s ease-in-out infinite;
+  z-index: 0;
 }
 
 .human-model-section::-webkit-scrollbar {

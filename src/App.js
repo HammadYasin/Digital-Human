@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import logo from "./images/logo.png";
 import Lottie from "react-lottie";
-//Background
+//Backgrounds
 import background from "./images/background.jpg";
+import human_back from "./images/human-background.png";
 // Human and Organs
 import human from "./images/human.png";
 import brain from "./images/brain.png";
@@ -665,13 +666,11 @@ function DigitalHuman() {
       <div className="main-container">
         <div
           className="human-model-section"
-          style={
-            {
-              // backgroundImage: `url(${background})`,
-              // backgroundSize: "cover",
-              // backgroundRepeat: "no-repeat",
-            }
-          }
+          style={{
+            backgroundImage: `url(${human_back})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
         >
           <div
             style={{ position: "relative", width: "270px", height: "650px" }}
@@ -682,10 +681,13 @@ function DigitalHuman() {
               style={{
                 height: "100%",
                 width: "100%",
-                opacity: isTransparent ? 0.3 : 1,
-                transition: "opacity 0.5s ease",
+                opacity: isOrgan ? 0.4 : 1,
+                transition: "opacity 0.5s ease, filter 0.5s ease",
                 position: "relative",
                 zIndex: 10,
+                filter: isTransparent
+                  ? "grayscale(0.3) brightness(0.8) hue-rotate(210deg)"
+                  : "none",
               }}
             />
 
@@ -810,6 +812,7 @@ function DigitalHuman() {
                     top: "3%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
+                    zIndex: 10,
                   }}
                 />
                 <Lottie
@@ -823,6 +826,7 @@ function DigitalHuman() {
                     top: "22%",
                     left: "60%",
                     transform: "translate(-50%, -50%)",
+                    zIndex: 10,
                   }}
                 />
                 <Lottie
@@ -836,6 +840,7 @@ function DigitalHuman() {
                     top: "29%",
                     left: "40%",
                     transform: "translate(-50%, -50%)",
+                    zIndex: 10,
                   }}
                 />
                 <Lottie
@@ -849,6 +854,7 @@ function DigitalHuman() {
                     top: "39%",
                     left: "18%",
                     transform: "translate(-50%, -50%)",
+                    zIndex: 10,
                   }}
                 />
                 <Lottie
@@ -862,6 +868,7 @@ function DigitalHuman() {
                     top: "42%",
                     left: "40%",
                     transform: "translate(-50%, -50%)",
+                    zIndex: 10,
                   }}
                 />
               </>
@@ -880,6 +887,19 @@ function DigitalHuman() {
               transform: "translate(-50%, -50%)",
             }}
           />
+          {/* <Lottie
+            speed={0.8}
+            options={defaultOptions_pulse}
+            style={{
+              height: "100px",
+              width: "100px",
+              maxWidth: "200px",
+              position: "absolute",
+              top: "20%",
+              left: "7%",
+              transform: "translate(-50%, -50%)",
+            }}
+          /> */}
           {isLoad && (
             <div
               style={{
