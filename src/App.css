@@ -13,6 +13,7 @@
   text-align: center;
   font-size: 1.5rem;
   width: 100%;
+  position: absolute;
 }
 
 .main-container {
@@ -23,7 +24,7 @@
   height: calc(90vh - 40px);
   padding: 20px;
   overflow: hidden;
-  /* margin-bottom: 1%; */
+  margin-bottom: 1%;
 }
 
 .human-model-section {
@@ -40,7 +41,11 @@
   border: 10px solid #1c1c24;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  height: 85%;
+  justify-content: center;
+  margin: auto;
 }
+
 .human-model-section::-webkit-scrollbar {
   display: none;
 }
@@ -96,11 +101,11 @@
   margin-left: 20px;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  /* height: 1000px; */
+  height: 95%;
 }
 .health-section {
   width: 100%;
-  min-width: 500px;
+  min-width: 600px;
   background-color: #1c1c24;
   padding: 20px;
   border-radius: 20px;
@@ -113,6 +118,7 @@
   margin-left: 20px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  height: 95%;
 }
 
 .health-section::-webkit-scrollbar {
@@ -206,6 +212,16 @@
 .submit-btn {
   background-color: #4b9cd3;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 5px #357ca5;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn:active {
+  transform: translateY(4px) translateX(2px);
+  box-shadow: 0 2px #357ca5;
 }
 
 .cancel-btn {
@@ -241,13 +257,37 @@
 }
 
 .modal-content {
-  background: white;
+  background-color: #1c1c24;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   max-width: 600px;
   width: 90%;
   overflow: auto;
+  color: white;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #1c1c24;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: #555 #1c1c24;
 }
 
 .image-preview-container {
@@ -278,6 +318,62 @@
   padding: 10px;
   box-sizing: border-box;
   width: 100%;
+  background: #777;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+    0 2px 5px rgba(255, 255, 255, 0.2) inset;
+  transition: box-shadow 0.3s;
+}
+.input-field input:focus {
+  outline: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(255, 255, 255, 0.3) inset;
+}
+.input_drop {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input_drop label {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.input_drop select {
+  padding: 10px 40px 10px 10px;
+  width: 100%;
+  background: #777;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  appearance: none;
+  font-size: 16px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.input_drop select:hover {
+  background: #888;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.input_drop select:focus {
+  outline: none;
+  background: #888;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.input_drop::after {
+  content: "▼";
+  position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  color: white;
+  pointer-events: none;
 }
 
 .modal-buttons {
