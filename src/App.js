@@ -15,6 +15,7 @@ import diabetes from "./images/diabetes.png";
 //Loading Animations
 import loading from "./animations/loading_ani.json";
 import pulse from "./animations/pulse.json";
+import health_ani from "./animations/health_reco.json";
 // Health Recommendations
 import brain_icon from "./icons/brain_ico.png";
 import lungs_icon from "./icons/lungs_ico.png";
@@ -447,6 +448,14 @@ function DigitalHuman() {
     loop: true,
     autoplay: true,
     animationData: pulse,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const defaultOptions_health = {
+    loop: true,
+    autoplay: true,
+    animationData: health_ani,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
@@ -1255,157 +1264,175 @@ function DigitalHuman() {
           </div>
         </div>
         <div className="health-section">
-          <div style={{ marginBottom: "30%" }}>
-            {healthRecommendations.map((item, index) =>
-              item.value ? (
-                <div
-                  key={index}
-                  style={{
-                    marginBottom: "1rem",
-                    padding: "10px",
-                    backgroundColor: "#02061B",
-                    borderRadius: "35px",
-                  }}
-                >
+          {isLoad && (
+            <Lottie
+              speed={0.5}
+              options={defaultOptions_health}
+              style={{
+                height: "250px",
+                width: "250px",
+                maxWidth: "200px",
+                marginTop: "35%",
+              }}
+            />
+          )}
+          {isOrgan && (
+            <div style={{ marginBottom: "30%" }}>
+              {healthRecommendations.map((item, index) =>
+                item.value ? (
                   <div
+                    key={index}
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      backgroundColor: "#1A1A2E",
-                      padding: "5px",
-                      borderRadius: "20px",
-                      width: "30%",
-                      justifyContent: "center",
-                      // marginLeft: "35%",
+                      marginBottom: "1rem",
+                      padding: "10px",
+                      backgroundColor: "#02061B",
+                      borderRadius: "35px",
                     }}
                   >
-                    <img
-                      src={item.icon}
-                      alt={`${item.disease} icon`}
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                    <h3
-                      style={{ color: "#87CEFA", fontSize: "11px", margin: 0 }}
-                    >
-                      {item.disease}
-                    </h3>
-                  </div>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "0.5fr 0.5fr",
-                      gap: "0.5rem",
-                      width: "100%",
-                    }}
-                  >
-                    <ul
+                    <div
                       style={{
-                        listStyleType: "none",
-                        margin: "0",
-                        padding: "0",
-                        color: "#FFFFFF",
-                        fontSize: "11px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        backgroundColor: "#1A1A2E",
+                        padding: "5px",
+                        borderRadius: "20px",
+                        width: "30%",
+                        justifyContent: "center",
+                        // marginLeft: "35%",
+                      }}
+                    >
+                      <img
+                        src={item.icon}
+                        alt={`${item.disease} icon`}
+                        style={{ width: "30px", height: "30px" }}
+                      />
+                      <h3
+                        style={{
+                          color: "#87CEFA",
+                          fontSize: "11px",
+                          margin: 0,
+                        }}
+                      >
+                        {item.disease}
+                      </h3>
+                    </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "0.5fr 0.5fr",
+                        gap: "0.5rem",
                         width: "100%",
                       }}
                     >
-                      {item.lifestyleChanges.map((change, changeIndex) => {
-                        const [category, ...descriptionParts] =
-                          change.split(": ");
-                        const description = descriptionParts.join(": ");
+                      <ul
+                        style={{
+                          listStyleType: "none",
+                          margin: "0",
+                          padding: "0",
+                          color: "#FFFFFF",
+                          fontSize: "11px",
+                          width: "100%",
+                        }}
+                      >
+                        {item.lifestyleChanges.map((change, changeIndex) => {
+                          const [category, ...descriptionParts] =
+                            change.split(": ");
+                          const description = descriptionParts.join(": ");
 
-                        return (
-                          <li
-                            key={changeIndex}
-                            style={{
-                              display: "grid",
-                              gridTemplateColumns: "30% 70%",
-                              alignItems: "center",
-                              margin: "0.5rem 0",
-                              width: "100%",
-                            }}
-                          >
-                            <div
+                          return (
+                            <li
+                              key={changeIndex}
                               style={{
-                                backgroundColor: "#1A1A2E",
-                                padding: "5px",
-                                borderRadius: "10px",
-                                textAlign: "center",
+                                display: "grid",
+                                gridTemplateColumns: "30% 70%",
+                                alignItems: "center",
+                                margin: "0.5rem 0",
+                                width: "100%",
                               }}
                             >
-                              {category}
-                            </div>
-                            <div
-                              style={{
-                                backgroundColor: "#1A1A2E",
-                                padding: "5px",
-                                borderRadius: "10px",
-                                textAlign: "center",
-                                marginLeft: 5,
-                              }}
-                            >
-                              {description}
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <ul
-                      style={{
-                        listStyleType: "none",
-                        margin: "0",
-                        padding: "0",
-                        color: "#FFFFFF",
-                        fontSize: "11px",
-                        width: "100%",
-                      }}
-                    >
-                      {item.treatment.map((change, changeIndex) => {
-                        const [category, ...descriptionParts] =
-                          change.split(": ");
-                        const description = descriptionParts.join(": ");
+                              <div
+                                style={{
+                                  backgroundColor: "#1A1A2E",
+                                  padding: "5px",
+                                  borderRadius: "10px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {category}
+                              </div>
+                              <div
+                                style={{
+                                  backgroundColor: "#1A1A2E",
+                                  padding: "5px",
+                                  borderRadius: "10px",
+                                  textAlign: "center",
+                                  marginLeft: 5,
+                                }}
+                              >
+                                {description}
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                      <ul
+                        style={{
+                          listStyleType: "none",
+                          margin: "0",
+                          padding: "0",
+                          color: "#FFFFFF",
+                          fontSize: "11px",
+                          width: "100%",
+                        }}
+                      >
+                        {item.treatment.map((change, changeIndex) => {
+                          const [category, ...descriptionParts] =
+                            change.split(": ");
+                          const description = descriptionParts.join(": ");
 
-                        return (
-                          <li
-                            key={changeIndex}
-                            style={{
-                              display: "grid",
-                              gridTemplateColumns: "30% 70%",
-                              alignItems: "center",
-                              margin: "0.5rem 0",
-                              width: "100%",
-                            }}
-                          >
-                            <div
+                          return (
+                            <li
+                              key={changeIndex}
                               style={{
-                                backgroundColor: "#1A1A2E",
-                                padding: "5px",
-                                borderRadius: "10px",
-                                textAlign: "center",
+                                display: "grid",
+                                gridTemplateColumns: "30% 70%",
+                                alignItems: "center",
+                                margin: "0.5rem 0",
+                                width: "100%",
                               }}
                             >
-                              {category}
-                            </div>
-                            <div
-                              style={{
-                                backgroundColor: "#1A1A2E",
-                                padding: "5px",
-                                borderRadius: "10px",
-                                textAlign: "center",
-                                marginLeft: 5,
-                              }}
-                            >
-                              {description}
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                              <div
+                                style={{
+                                  backgroundColor: "#1A1A2E",
+                                  padding: "5px",
+                                  borderRadius: "10px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {category}
+                              </div>
+                              <div
+                                style={{
+                                  backgroundColor: "#1A1A2E",
+                                  padding: "5px",
+                                  borderRadius: "10px",
+                                  textAlign: "center",
+                                  marginLeft: 5,
+                                }}
+                              >
+                                {description}
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              ) : null
-            )}
-          </div>
+                ) : null
+              )}
+            </div>
+          )}
         </div>
       </div>
       {showModal && (
