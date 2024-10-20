@@ -56,7 +56,7 @@ const defaultValues = {
     trtbps: 100,
     fbs: 1,
     restecg: 0,
-    thalachh: 100,
+    thalachh: 180,
     exng: 0,
     oldpeak: 2.3,
     slp: 0,
@@ -238,13 +238,13 @@ function DigitalHuman() {
       image: fields.tumor.image.split(",")[1],
     };
     const requestBodyLung = {
-      image: fields.tumor.image.split(",")[1],
+      image: fields.lungCancer.image.split(",")[1],
     };
     const requestBodySkin = {
-      image: fields.tumor.image.split(",")[1],
+      image: fields.skinCancer.image.split(",")[1],
     };
     const requestBodyAlz = {
-      image: fields.tumor.image.split(",")[1],
+      image: fields.alzheimer.image.split(",")[1],
     };
     // console.log("Request Body:", JSON.stringify(requestBodyHea));
     fetch("/diabetes", {
@@ -345,6 +345,7 @@ function DigitalHuman() {
       res.text().then((dataLu) => {
         setTimeout(() => {
           const parsedData = JSON.parse(dataLu);
+          console.log(requestBodyLung);
           setDataLu(parsedData);
         }, 1000);
       })
@@ -626,14 +627,22 @@ function DigitalHuman() {
               width: 80,
               marginLeft: 30,
               alignSelf: "flex-end",
+              marginBottom: 40,
             }}
           />
           <h1
             style={{
-              marginLeft: 150,
+              marginLeft: 115,
               fontSize: 30,
               color: "#CCCCCC",
               alignSelf: "flex-end",
+              borderColor: "grey",
+              borderStyle: "solid",
+              borderWidth: "2px",
+              borderRadius: "5px",
+              marginTop: 50,
+              paddingLeft: 30,
+              paddingRight: 30,
             }}
           >
             Human Twin
@@ -643,19 +652,33 @@ function DigitalHuman() {
               color: "white",
               textAlign: "center",
               fontSize: "18px",
-              marginLeft: 415,
+              marginLeft: 350,
               alignSelf: "flex-end",
+              marginBottom: 50,
+              borderStyle: "solid",
+              borderWidth: "2px",
+              borderRadius: "5px",
+              borderColor: "grey",
+              paddingLeft: 30,
+              paddingRight: 30,
             }}
           >
-            User Predictions
+            Detected Diseases
           </h3>
           <h4
             style={{
-              color: "#FFD700",
+              color: "#FFFFFF",
               fontSize: "18px",
               marginBottom: "1rem",
               alignSelf: "flex-end",
-              marginLeft: 445,
+              borderStyle: "solid",
+              borderWidth: "2px",
+              borderRadius: "5px",
+              borderColor: "grey",
+              marginLeft: 370,
+              marginBottom: 50,
+              paddingLeft: 30,
+              paddingRight: 30,
             }}
           >
             Health Recommendations
@@ -912,6 +935,7 @@ function DigitalHuman() {
               gap: "20px",
               fontFamily: "Arial, sans-serif",
               height: "100vh",
+              padding: 23,
             }}
           >
             {isLoad && (
@@ -966,8 +990,15 @@ function DigitalHuman() {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
+                      borderColor: "grey",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
+                    <img
+                      src={diabetes_icon}
+                      style={{ width: "30px", height: "30px" }}
+                    />
                     <strong style={{ color: "white" }}>
                       Diabetes Risk Prediction
                     </strong>
@@ -979,7 +1010,7 @@ function DigitalHuman() {
                       backgroundColor: "#1A1A2E",
                       width: "80%",
                       borderRadius: "5px",
-                      borderColor: "#fff",
+                      borderColor: "grey",
                       borderStyle: "solid",
                       borderWidth: "1px",
                     }}
@@ -987,7 +1018,9 @@ function DigitalHuman() {
                     <span
                       style={{
                         color: colorDia ? "brown" : "white",
-                        fontSize: "16px",
+                        fontSize: "13px",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
                       {dataDia}
@@ -1018,8 +1051,15 @@ function DigitalHuman() {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
+                      borderColor: "grey",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
+                    <img
+                      src={heart_icon}
+                      style={{ width: "30px", height: "30px" }}
+                    />
                     <strong style={{ color: "white" }}>
                       Heart Attack Prediction
                     </strong>
@@ -1031,7 +1071,7 @@ function DigitalHuman() {
                       backgroundColor: "#1A1A2E",
                       width: "80%",
                       borderRadius: "5px",
-                      borderColor: "#fff",
+                      borderColor: "grey",
                       borderStyle: "solid",
                       borderWidth: "1px",
                     }}
@@ -1039,7 +1079,9 @@ function DigitalHuman() {
                     <span
                       style={{
                         color: colorHea ? "brown" : "white",
-                        fontSize: "16px",
+                        fontSize: "13px",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
                       {dataHea}
@@ -1070,8 +1112,15 @@ function DigitalHuman() {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
+                      borderColor: "grey",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
+                    <img
+                      src={chol_icon}
+                      style={{ width: "30px", height: "30px" }}
+                    />
                     <strong style={{ color: "white" }}>
                       Cholesterol Prediction
                     </strong>
@@ -1083,7 +1132,7 @@ function DigitalHuman() {
                       backgroundColor: "#1A1A2E",
                       width: "80%",
                       borderRadius: "5px",
-                      borderColor: "#fff",
+                      borderColor: "grey",
                       borderStyle: "solid",
                       borderWidth: "1px",
                     }}
@@ -1091,7 +1140,9 @@ function DigitalHuman() {
                     <span
                       style={{
                         color: colorChol ? "brown" : "white",
-                        fontSize: "16px",
+                        fontSize: "13px",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
                       {Math.round(dataChol)}
@@ -1122,8 +1173,15 @@ function DigitalHuman() {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
+                      borderColor: "grey",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
+                    <img
+                      src={lungs_icon}
+                      style={{ width: "30px", height: "30px" }}
+                    />
                     <strong style={{ color: "white" }}>
                       Lung Disease Prediction
                     </strong>
@@ -1135,7 +1193,7 @@ function DigitalHuman() {
                       backgroundColor: "#1A1A2E",
                       width: "80%",
                       borderRadius: "5px",
-                      borderColor: "#fff",
+                      borderColor: "grey",
                       borderStyle: "solid",
                       borderWidth: "1px",
                     }}
@@ -1143,7 +1201,9 @@ function DigitalHuman() {
                     <span
                       style={{
                         color: colorLung ? "brown" : "white",
-                        fontSize: "16px",
+                        fontSize: "13px",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
                       {dataLu.prediction}
@@ -1174,8 +1234,15 @@ function DigitalHuman() {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
+                      borderColor: "grey",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
+                    <img
+                      src={brain_icon}
+                      style={{ width: "30px", height: "30px" }}
+                    />
                     <strong style={{ color: "white" }}>
                       Brain Tumor Prediction
                     </strong>
@@ -1187,7 +1254,7 @@ function DigitalHuman() {
                       backgroundColor: "#1A1A2E",
                       width: "80%",
                       borderRadius: "5px",
-                      borderColor: "#fff",
+                      borderColor: "grey",
                       borderStyle: "solid",
                       borderWidth: "1px",
                     }}
@@ -1195,7 +1262,9 @@ function DigitalHuman() {
                     <span
                       style={{
                         color: colorBrain ? "brown" : "white",
-                        fontSize: "16px",
+                        fontSize: "13px",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
                       {dataTu.prediction} (Confidence: {dataTu.confidence})
@@ -1226,8 +1295,15 @@ function DigitalHuman() {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
+                      borderColor: "grey",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
+                    <img
+                      src={brain_icon}
+                      style={{ width: "30px", height: "30px" }}
+                    />
                     <strong style={{ color: "white" }}>
                       Alzheimer Prediction
                     </strong>
@@ -1239,7 +1315,7 @@ function DigitalHuman() {
                       backgroundColor: "#1A1A2E",
                       width: "80%",
                       borderRadius: "5px",
-                      borderColor: "#fff",
+                      borderColor: "grey",
                       borderStyle: "solid",
                       borderWidth: "1px",
                     }}
@@ -1247,7 +1323,9 @@ function DigitalHuman() {
                     <span
                       style={{
                         color: colorAlz ? "brown" : "white",
-                        fontSize: "16px",
+                        fontSize: "13px",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
                       {dataAl.predicted_class} (Confidence: {dataAl.confidence}
@@ -1279,8 +1357,15 @@ function DigitalHuman() {
                       alignItems: "center",
                       justifyContent: "center",
                       display: "flex",
+                      borderColor: "grey",
+                      borderStyle: "solid",
+                      borderWidth: "1px",
                     }}
                   >
+                    <img
+                      src={skin_icon}
+                      style={{ width: "30px", height: "30px" }}
+                    />
                     <strong style={{ color: "white" }}>
                       Skin Condition Prediction
                     </strong>
@@ -1292,7 +1377,7 @@ function DigitalHuman() {
                       backgroundColor: "#1A1A2E",
                       width: "80%",
                       borderRadius: "5px",
-                      borderColor: "#fff",
+                      borderColor: "grey",
                       borderStyle: "solid",
                       borderWidth: "1px",
                     }}
@@ -1300,7 +1385,9 @@ function DigitalHuman() {
                     <span
                       style={{
                         color: colorSkin ? "brown" : "white",
-                        fontSize: "16px",
+                        fontSize: "13px",
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, sans-serif",
                       }}
                     >
                       {dataSk.predicted_class} (Confidence: {dataSk.confidence})
@@ -1371,10 +1458,13 @@ function DigitalHuman() {
                         gap: "10px",
                         backgroundColor: "#1A1A2E",
                         padding: "5px",
-                        borderRadius: "20px",
+                        borderRadius: "10px",
                         width: "30%",
                         justifyContent: "center",
                         // marginLeft: "35%",
+                        borderColor: "grey",
+                        borderStyle: "solid",
+                        borderWidth: "1px",
                       }}
                     >
                       <img
@@ -1430,8 +1520,11 @@ function DigitalHuman() {
                                 style={{
                                   backgroundColor: "#1A1A2E",
                                   padding: "5px",
-                                  borderRadius: "10px",
+                                  borderRadius: "5px",
                                   textAlign: "center",
+                                  background:
+                                    "linear-gradient(90deg, #4FB1A7, #3273A3, #7950A0)",
+                                  fontWeight: "bold",
                                 }}
                               >
                                 {category}
@@ -1440,7 +1533,7 @@ function DigitalHuman() {
                                 style={{
                                   backgroundColor: "#1A1A2E",
                                   padding: "5px",
-                                  borderRadius: "10px",
+                                  borderRadius: "5px",
                                   textAlign: "center",
                                   marginLeft: 5,
                                 }}
@@ -1481,8 +1574,11 @@ function DigitalHuman() {
                                 style={{
                                   backgroundColor: "#1A1A2E",
                                   padding: "5px",
-                                  borderRadius: "10px",
+                                  borderRadius: "5px",
                                   textAlign: "center",
+                                  background:
+                                    "linear-gradient(90deg, #4FB1A7, #3273A3, #7950A0)",
+                                  fontWeight: "bold",
                                 }}
                               >
                                 {category}
@@ -1491,7 +1587,7 @@ function DigitalHuman() {
                                 style={{
                                   backgroundColor: "#1A1A2E",
                                   padding: "5px",
-                                  borderRadius: "10px",
+                                  borderRadius: "5px",
                                   textAlign: "center",
                                   marginLeft: 5,
                                 }}
