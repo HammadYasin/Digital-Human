@@ -56,7 +56,7 @@ const defaultValues = {
     trtbps: 100,
     fbs: 1,
     restecg: 0,
-    thalachh: 180,
+    thalachh: 150,
     exng: 0,
     oldpeak: 2.3,
     slp: 0,
@@ -379,10 +379,10 @@ function DigitalHuman() {
     setcolorHea(dataHea === "Heart Attack");
     const cholValue = parseFloat(dataChol);
     if (!isNaN(cholValue)) {
-      if (cholValue < 205) {
+      if (cholValue < 200) {
         setcolorChol(false);
       } else if (cholValue >= 205 && cholValue <= 239) {
-        setcolorChol(true);
+        setcolorChol(false);
       } else {
         setcolorChol(true);
       }
@@ -769,9 +769,12 @@ function DigitalHuman() {
                     height: "180px",
                     width: "180px",
                     transform: "translate(-50%, -50%)",
-                    filter: colorChol
-                      ? "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)"
-                      : "none",
+                    filter:
+                      dataChol < 200
+                        ? "brightness(0) saturate(100%) invert(72%) sepia(64%) saturate(5000%) hue-rotate(90deg) brightness(95%)"
+                        : dataChol <= 239
+                        ? "brightness(0) saturate(100%) invert(20%) sepia(100%) saturate(5000%) hue-rotate(60deg) brightness(200%)"
+                        : "brightness(0) saturate(100%) invert(28%) sepia(90%) saturate(7500%) hue-rotate(360deg) brightness(90%)",
                     opacity: isOrgan ? 1 : 0,
                     zIndex: 1,
                   }}
@@ -1146,7 +1149,12 @@ function DigitalHuman() {
                   >
                     <span
                       style={{
-                        color: colorChol ? "brown" : "white",
+                        color:
+                          dataChol < 200
+                            ? "green"
+                            : dataChol <= 239
+                            ? "yellow"
+                            : "brown",
                         fontSize: "13px",
                         fontFamily:
                           "-apple-system, BlinkMacSystemFont, sans-serif",
