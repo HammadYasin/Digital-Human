@@ -643,6 +643,9 @@ function DigitalHuman() {
               marginTop: 50,
               paddingLeft: 30,
               paddingRight: 30,
+              paddingBottom: 10,
+              paddingTop: 10,
+              backgroundColor: "#02061B",
             }}
           >
             Human Twin
@@ -654,13 +657,15 @@ function DigitalHuman() {
               fontSize: "18px",
               marginLeft: 350,
               alignSelf: "flex-end",
-              marginBottom: 50,
+              marginBottom: 60,
               borderStyle: "solid",
               borderWidth: "2px",
               borderRadius: "5px",
               borderColor: "grey",
               paddingLeft: 30,
               paddingRight: 30,
+              paddingBottom: 5,
+              paddingTop: 5,
             }}
           >
             Detected Diseases
@@ -676,9 +681,11 @@ function DigitalHuman() {
               borderRadius: "5px",
               borderColor: "grey",
               marginLeft: 370,
-              marginBottom: 50,
+              marginBottom: 60,
               paddingLeft: 30,
               paddingRight: 30,
+              paddingBottom: 5,
+              paddingTop: 5,
             }}
           >
             Health Recommendations
