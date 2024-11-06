@@ -1,0 +1,10 @@
+Flask==2.0.1
+Flask-CORS==3.0.10
+keras==2.8.0
+Pillow==8.4.0
+numpy==1.21.4
+scikit-learn==1.5.2
+pandas==1.3.3
+Werkzeug==2.0.3
+scikit-learn
+xgboost==2.1.1
