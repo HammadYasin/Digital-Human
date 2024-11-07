@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  react-app:
+    build:
+      context: ./
+    ports:
+      - "4000:4000"
+    environment:
+      - REACT_APP_API_URL=http://api-server:5000
+    depends_on:
+      - api-server
+    networks:
+      - app-network
+
+  api-server:
+    build:
+      context: ./backend/docker
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
